@@ -22,7 +22,7 @@ describe 'foreman_proxy::plugin::dynflow' do
     end
 
     it 'should generate correct dynflow core settings.yml' do
-      verify_exact_contents(catalogue, "/opt/theforeman/tfm/root/etc/smart_proxy_dynflow_core/settings.yml", [
+      verify_exact_contents(catalogue, "/etc/smart_proxy_dynflow_core/settings.yml", [
           "---",
           ":database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite",
           ":console_auth: true",
