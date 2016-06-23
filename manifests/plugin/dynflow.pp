@@ -28,9 +28,7 @@ class foreman_proxy::plugin::dynflow (
   validate_listen_on($listen_on)
   validate_absolute_path($database_path)
 
-  $use_ssl = $foreman_proxy::ssl
-
-  if $use_ssl {
+  if $::foreman_proxy::ssl {
     $core_url = "https://${::fqdn}:${core_port}"
   } else {
     $core_url = "http://${::fqdn}:${core_port}"
