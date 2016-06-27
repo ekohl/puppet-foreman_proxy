@@ -27,7 +27,7 @@ describe 'foreman_proxy::plugin::dynflow' do
           ":database: /var/lib/foreman-proxy/dynflow/dynflow.sqlite",
           ":console_auth: true",
           ":foreman_url: https://foo.example.com",
-          ":listen: 127.0.0.1",
+          ":listen: 0.0.0.0",
           ":port: 8008",
           ":use_https: true",
           ":ssl_ca_file: /var/lib/puppet/ssl/certs/ca.pem",

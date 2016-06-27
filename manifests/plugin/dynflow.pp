@@ -14,6 +14,8 @@
 # $console_auth::    Whether to enable trusted hosts and ssl for the dynflow console
 #                    type:boolean
 #
+# $core_listen::     Address to listen on for the dynflow core service
+#
 # $core_port::       Port to use for the local dynflow core service
 #
 class foreman_proxy::plugin::dynflow (
@@ -21,6 +23,7 @@ class foreman_proxy::plugin::dynflow (
   $listen_on         = $::foreman_proxy::plugin::dynflow::params::listen_on,
   $database_path     = $::foreman_proxy::plugin::dynflow::params::database_path,
   $console_auth      = $::foreman_proxy::plugin::dynflow::params::console_auth,
+  $core_listen       = $::foreman_proxy::plugin::dynflow::params::core_listen,
   $core_port         = $::foreman_proxy::plugin::dynflow::params::core_port,
 ) inherits foreman_proxy::plugin::dynflow::params {
 
