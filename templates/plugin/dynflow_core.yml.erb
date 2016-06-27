@@ -29,7 +29,7 @@
 # Listen on port
 :port: <%= scope.lookupvar("foreman_proxy::plugin::dynflow::core_port") %>
 
-<% ssl = ![nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::plugin::dynflow::use_ssl")) -%>
+<% ssl = ![nil, :undefined, :undef].include?(scope.lookupvar("foreman_proxy::ssl")) -%>
 <% if ssl -%>
 :use_https: true
 <% else -%>
