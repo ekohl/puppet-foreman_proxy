@@ -17,6 +17,7 @@
 # $core_listen::     Address to listen on for the dynflow core service
 #
 # $core_port::       Port to use for the local dynflow core service
+#                    type:integer
 #
 class foreman_proxy::plugin::dynflow (
   $enabled           = $::foreman_proxy::plugin::dynflow::params::enabled,
@@ -27,6 +28,7 @@ class foreman_proxy::plugin::dynflow (
   $core_port         = $::foreman_proxy::plugin::dynflow::params::core_port,
 ) inherits foreman_proxy::plugin::dynflow::params {
 
+  validate_integer($core_port)
   validate_bool($enabled, $console_auth)
   validate_listen_on($listen_on)
   validate_absolute_path($database_path)
