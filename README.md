@@ -25,6 +25,9 @@ required.
 This module only supports Smart Proxy 1.12 or higher as of version 4.0, as the
 configuration layout changed significantly.
 
+For Smart Proxy 1.12 you do need to set
+`$foreman_proxy::plugin::dynflow::use_dynflow_core` to false.
+
 To configure older versions of the Smart Proxy use version 2.x of this module
 for 1.5 to 1.10 and 3.x for 1.11.
 

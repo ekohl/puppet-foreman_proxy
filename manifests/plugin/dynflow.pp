@@ -4,20 +4,24 @@
 #
 # === Parameters:
 #
-# $enabled::         Enables/disables the plugin
-#                    type:boolean
+# $enabled::          Enables/disables the plugin
+#                     type:boolean
 #
-# $listen_on::       Proxy feature listens on https, http, or both
+# $listen_on::        Proxy feature listens on https, http, or both
 #
-# $database_path::   Path to the SQLite database file
+# $database_path::    Path to the SQLite database file
 #
-# $console_auth::    Whether to enable trusted hosts and ssl for the dynflow console
-#                    type:boolean
+# $console_auth::     Whether to enable trusted hosts and ssl for the dynflow console
+#                     type:boolean
 #
-# $core_listen::     Address to listen on for the dynflow core service
+# $core_listen::      Address to listen on for the dynflow core service
 #
-# $core_port::       Port to use for the local dynflow core service
-#                    type:integer
+# $core_port::        Port to use for the local dynflow core service
+#                     type:integer
+#
+# $use_dynflow_core:: Whether to use dynflow core. This is only needed on 1.13+
+#                     installs on RedHat
+#                     type:boolean
 #
 class foreman_proxy::plugin::dynflow (
   $enabled           = $::foreman_proxy::plugin::dynflow::params::enabled,
@@ -26,10 +30,11 @@ class foreman_proxy::plugin::dynflow (
   $console_auth      = $::foreman_proxy::plugin::dynflow::params::console_auth,
   $core_listen       = $::foreman_proxy::plugin::dynflow::params::core_listen,
   $core_port         = $::foreman_proxy::plugin::dynflow::params::core_port,
+  $use_dynflow_core  = $::foreman_proxy::plugin::dynflow::params::use_dynflow_core,
 ) inherits foreman_proxy::plugin::dynflow::params {
 
   validate_integer($core_port)
-  validate_bool($enabled, $console_auth)
+  validate_bool($enabled, $console_auth, $use_dynflow_core)
   validate_listen_on($listen_on)
   validate_absolute_path($database_path)
 
@@ -47,24 +52,7 @@ class foreman_proxy::plugin::dynflow (
     template_path => 'foreman_proxy/plugin/dynflow.yml.erb',
   }
 
-  if $::osfamily == 'RedHat' and $::operatingsystem != 'Fedora' {
-    $scl_prefix = 'tfm-'
-  } else {
-    $scl_prefix = '' # lint:ignore:empty_string_assignment
-  }
-
-  # Currently the service is only needed on Red Hat OS's
-  if $::osfamily == 'RedHat' {
-    foreman_proxy::plugin { 'dynflow_core':
-      package => "${scl_prefix}${::foreman_proxy::plugin_prefix}dynflow_core",
-    } ~>
-    file { '/etc/smart_proxy_dynflow_core/settings.yml':
-      ensure  => file,
-      content => template('foreman_proxy/plugin/dynflow_core.yml.erb'),
-    } ~>
-    service { 'smart_proxy_dynflow_core':
-      ensure => running,
-      enable => true,
-    }
+  if $use_dynflow_core {
+    include ::foreman_proxy::plugin::dynflow_core
   }
 }

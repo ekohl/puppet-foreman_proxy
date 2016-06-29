@@ -6,4 +6,5 @@ class foreman_proxy::plugin::dynflow::params {
   $console_auth      = true
   $core_listen       = '0.0.0.0'
   $core_port         = 8008
+  $use_dynflow_core  = $::osfamily == 'RedHat'
 }
